@@ -1,0 +1,234 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,400&display=swap");
+
+/* shared utility classes */
+
+.hidden {
+  display: none !important;
+}
+.yellow {
+  color: var(--yellow);
+}
+.turquoise {
+  color: turquoise;
+}
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px;
+}
+
+.border {
+  border: 1px solid rgba(211, 211, 211, 0.4) !important;
+}
+button:hover {
+  opacity: 90%;
+  cursor: pointer;
+}
+
+:root {
+  --gray: #2e4756;
+  --light-gray: #d3d3d3;
+  --dark-gray: #1a2a32;
+  --yellow: #f2b147;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: none;
+  font-family: "Montserrat", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--dark-gray);
+}
+body {
+  padding: 90px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-template-rows: 50px repeat(3, 80px) 60px;
+  gap: 5px;
+}
+
+/* for mobile */
+@media (min-width: 768px) {
+  .grid {
+    width: 490px;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: 50px repeat(3, 150px) 60px;
+    gap: 20px;
+  }
+}
+
+/* Turn Styles */
+.turn {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 20px;
+}
+@keyframes turn-icon-animation {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.turn i {
+  font-size: 1.8rem;
+  margin: 10px;
+  animation: 0.6s ease-in-out turn-icon-animation;
+}
+@keyframes turn-text-animation {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  50% {
+    opacity: 50;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
+}
+.turn p {
+  font-size: 18px;
+  animation: 0.6s ease-in-out turn-text-animation;
+}
+
+/* Menu Styles  */
+.menu {
+  position: relative; /*so that the dropdown items have an idea as their positioning is absolute*/
+}
+.menu-btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  color: white;
+  background-color: rgba(211, 211, 211, 0.05);
+  border: 1px solid transparent;
+}
+.menu .items {
+  position: absolute;
+  z-index: 10;
+  top: 60px;
+  right: 0;
+  background-color: #203139;
+  border-radius: 10px;
+  padding: 10px;
+}
+.menu .items button {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  padding: 8px;
+  color: white;
+  border-radius: 10px;
+}
+.menu .items button:hover {
+  text-decoration: underline;
+  background-color: rgb(54, 63, 73);
+  cursor: pointer;
+}
+
+/* Square Styles */
+.square {
+  height: 100%;
+  width: 100%;
+  background-color: var(--gray);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+.square:hover {
+  opacity: 90%;
+  cursor: pointer;
+}
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+/* Score Board Styles */
+.score p {
+  font-size: 18px;
+  font-weight: 600;
+}
+.score span {
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* Modal(When the game ends) Styles */
+
+.modal {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-contents {
+  height: 150px;
+  width: 100%;
+  max-width: 300px;
+  transform: translateY(-80px);
+  background-color: var(--gray);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 20px;
+  margin: 10px;
+  color: white;
+}
+.modal-contents p {
+  font-weight: 600;
+  font-size: 25px;
+}
+.modal-contents button {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: turquoise;
+}
+
+/* Footer Styles */
+footer {
+  color: white;
+  margin-top: 50px;
+}
+footer p {
+  margin-top: 10px;
+  text-align: center;
+}
+footer a {
+  color: var(--yellow);
+}
