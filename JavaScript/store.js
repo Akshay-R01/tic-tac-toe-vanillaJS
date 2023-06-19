@@ -5,10 +5,10 @@ const initialValue = {
     allGames: [],
   },
 };
-export default class Store {
-  #state = initialValue;
-
-  constructor(players) {
+export default class Store extends EventTarget {
+  constructor(key, players) {
+    super();
+    this.storageKey = key;
     this.players = players;
   }
 
@@ -75,7 +75,6 @@ export default class Store {
     this.#saveState(clonedState);
   }
 
-
   //state updates on "reset" and "new roundI"
   reset() {
     const { status, moves } = this.game;
@@ -100,10 +99,11 @@ export default class Store {
   }
   //helper functions
   #getState() {
-    return this.#state;
+    const item = window.localStorage.getItem(this.storageKey);
+    return item ? JSON.parse(item) : initialValue;
   }
   #saveState(stateOrFn) {
-    const prevState = this.#getState;
+    const prevState = this.#getState();
     let newState;
 
     switch (typeof stateOrFn) {
@@ -116,6 +116,7 @@ export default class Store {
       default:
         throw new Error("Invalid argument passed in saveState");
     }
-    this.#state = newState;
+    window.localStorage.setItem(this.storageKey, JSON.stringify(newState));
+    this.dispatchEvent(new Event("stateChange"));
   }
 }

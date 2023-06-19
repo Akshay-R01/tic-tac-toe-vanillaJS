@@ -38,15 +38,37 @@ export default class View {
     });
   }
 
+  render(game, stats) {
+    const { playerWithStats, ties } = stats;
+    const {
+      moves,
+      currentPlayer,
+      status: { isComplete, winner },
+    } = game;
+
+    this.#closeAll();
+    this.#resetBoard();
+    this.#updateScoreboard(
+      playerWithStats[0].wins,
+      playerWithStats[1].wins,
+      ties
+    );
+    this.#initMoves(moves);
+    if (isComplete) {
+      this.#openModal(winner);
+      return;
+    }
+    this.#setTurnIndicator(currentPlayer);
+  }
   /**
    * DOM Helper Functions
    */
-  handlePlayerMove(squareEl, player) {
+  #handlePlayerMove(squareEl, player) {
     const icon = document.createElement("i");
     icon.classList.add("fa-solid", player.iconClass, player.colorClass);
     squareEl.replaceChildren(icon);
   }
-  setTurnIndicator(player) {
+  #setTurnIndicator(player) {
     const icon = document.createElement("i");
     icon.classList.add("fa-solid", player.iconClass, player.colorClass);
 
@@ -56,23 +78,30 @@ export default class View {
 
     this.$.turn.replaceChildren(icon, label);
   }
-  updateScoreboard(p1Wins, p2Wins, ties) {
+  #updateScoreboard(p1Wins, p2Wins, ties) {
     this.$.p1Wins.innerText = `${p1Wins} Wins`;
     this.$.p2Wins.innerText = `${p2Wins} Wins`;
-    this.$.ties.innerText = `${ties} Wins`;
+    this.$.ties.innerText = `${ties} Ties`;
   }
-  openModal(message) {
+  #openModal(winner) {
     this.$.modal.classList.remove("hidden");
-    const label = document.createElement("p");
-    this.$.modalTxt.innerText = message;
+    this.$.modalTxt.innerText = winner ? `${winner.name} Wins!` : "It's a Tie!";
   }
-  closeAll() {
+  #closeAll() {
     this.#closeModal();
     this.#closeMenu();
   }
-  resetBoard() {
+  #resetBoard() {
     this.$$.squares.forEach((square) => {
       square.replaceChildren();
+    });
+  }
+  #initMoves(moves) {
+    this.$$.squares.forEach((square) => {
+      const existingMove = moves.find((move) => move.squareId === +square.id);
+      if (existingMove) {
+        this.#handlePlayerMove(square, existingMove.player);
+      }
     });
   }
 
@@ -85,8 +114,8 @@ export default class View {
 
     //to make the arrow rotate when the menu is clicked
     const icon = this.$.menuBtn.querySelector("i");
-    icon.classList.remove("fa-chevron-down");
-    icon.classList.add("fa-chevron-up");
+    icon.classList.remove("fa-chevron-up");
+    icon.classList.add("fa-chevron-down");
   }
   #toggleMenu() {
     this.$.menuItems.classList.toggle("hidden");
@@ -94,8 +123,8 @@ export default class View {
 
     //to make the arrow rotate when the menu is clicked
     const icon = this.$.menuBtn.querySelector("i");
-    icon.classList.toggle("fa-chevron-down");
     icon.classList.toggle("fa-chevron-up");
+    icon.classList.toggle("fa-chevron-down");
   }
 
   /**
